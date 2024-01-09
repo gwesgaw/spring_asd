@@ -5,21 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-@Setter
+
 @Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class BoardVO {
+public class CommentVO {
 	
-	private long bno;
-	private String title;
+	private int cno;
+	private int bno;
 	private String writer;
 	private String content;
 	private String regAt;
 	private String modAt;
-	private int readCount;
-	private int cmtQty;
-	private int hasFile;
-
 }
