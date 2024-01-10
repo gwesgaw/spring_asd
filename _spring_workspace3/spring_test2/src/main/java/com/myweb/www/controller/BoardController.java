@@ -10,10 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.FileVO;
 import com.myweb.www.domain.PagingVO;
+import com.myweb.www.handler.BoardDTO;
+import com.myweb.www.handler.FileHandler;
 import com.myweb.www.handler.PagingHandler;
 import com.myweb.www.service.BoardService;
 
@@ -28,15 +32,26 @@ public class BoardController {
 	@Inject
 	private BoardService bsv;
 	
+	@Inject
+	private FileHandler fh;
+	
 	@GetMapping("/register")
 	public void register() {}
 
 	@PostMapping("/register")
-	public String insert(BoardVO bvo) {
+	public String insert(BoardVO bvo, @RequestParam(name="files", required = false)MultipartFile[] files) {
 		log.info(">>> bvo >>> {}", bvo);
-		int isOk =  bsv.insert(bvo);
+		List<FileVO> flist=null;
+		
+		//FileHandler
+		if(files[0].getSize() > 0) {
+			flist = fh.uploadFile(files);
+		}
+		
+		int isOk =  bsv.insert(new BoardDTO(bvo, flist));
 		return "index";
 	}
+	
 	
 	@GetMapping("/list")
 	public void list(Model m, PagingVO pgvo) {

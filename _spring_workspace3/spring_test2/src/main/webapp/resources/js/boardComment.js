@@ -132,6 +132,15 @@ document.addEventListener('click',(e)=>{
             //수정된 댓글 뿌리기 page=1
             spreadCommentList(bnoVal);
         })
+    }else if(e.target.classList.contains('cmtDelBtn')){
+        let div2 = document.querySelector(".accordion-item");
+        let cno = div2.dataset.cno;
+        removeCommentToServer(cno).then(result =>{
+            if(result =="1"){
+                alert("댓글 삭제 성공~!!");
+                spreadCommentList(bnoVal);
+            }
+        })
     }
 })
 
@@ -150,5 +159,20 @@ async function editCommentToServer(cmtDataMod){
         return result;
     } catch (error) {
         console.log(errer);
+    }
+}
+
+async function removeCommentToServer(cno){
+    try {
+            const url = "/comment/" + cno;
+            const config = {
+                method: "delete"
+            }
+            const resp = await fetch(url, config);
+            const result = await resp.text();
+            return result;
+
+    } catch (error) {
+        console.log(error);
     }
 }
