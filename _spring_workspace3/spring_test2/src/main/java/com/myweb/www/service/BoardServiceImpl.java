@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myweb.www.domain.BoardVO;
 import com.myweb.www.domain.FileVO;
@@ -50,20 +51,38 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
 		// TODO Auto-generated method stub
+		bdao.updateCommentCount();
+		bdao.updateFileCount();
+		
 		return bdao.getList(pgvo);
 	}
 
+	@Transactional
 	@Override
-	public BoardVO getDetail(long bno) {
+	public BoardDTO getDetail(long bno) {
 		// TODO Auto-generated method stub
-		return bdao.selectDetail(bno);
+		BoardVO bvo = bdao.selectDetail(bno);
+		bdao.updateReadCount(bno);
+		List<FileVO>flist = fdao.getFileList(bno);
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		return bdto;
 	}
 
 	@Override
-	public int modify(BoardVO bvo) {
+	public void modify(BoardDTO bdto) {
 		// TODO Auto-generated method stub
-		return bdao.update(bvo);
-		
+		int isOk = bdao.update(bdto.getBvo());
+		if(bdto.getFlist() == null) {
+			isOk *= 1;
+		}else {
+			if(isOk > 0 && bdto.getFlist().size() > 0) {
+				long bno = bdto.getBvo().getBno();
+				for(FileVO fvo : bdto.getFlist()) {
+					fvo.setBno(bno);
+					isOk *= fdao.insertFile(fvo);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -76,6 +95,12 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotalCount(PagingVO pgvo) {
 		// TODO Auto-generated method stub
 		return bdao.getTotalCount(pgvo);
+	}
+
+	@Override
+	public int delete(String uuid) {
+		// TODO Auto-generated method stub
+		return fdao.deleteFile(uuid);
 	}
 
 }

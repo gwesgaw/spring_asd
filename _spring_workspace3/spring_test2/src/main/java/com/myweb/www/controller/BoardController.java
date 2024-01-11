@@ -4,9 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,16 +74,22 @@ public class BoardController {
 	
 	@GetMapping({"/detail", "/modify"})
 	public void detail(Model m, @RequestParam("bno") int bno) {
-		m.addAttribute("bvo", bsv.getDetail(bno));
+		m.addAttribute("bdto", bsv.getDetail(bno));
 	}
 	
 	@PostMapping("/modify")
-	public String modify(BoardVO bvo, RedirectAttributes re) {
+	public String modify(BoardVO bvo, @RequestParam(name="files", required = false)MultipartFile[] files) {
+		log.info(">>> bno >>{} ", bvo);
+		List<FileVO> flist = null;
+		if(files[0].getSize()>0) {
+			flist = fh.uploadFile(files);
+		}
+		BoardDTO boardDTO = new BoardDTO(bvo, flist);
+		//update
+		bsv.modify(boardDTO);
 		
-		int isOk = bsv.modify(bvo);
-		
-		re.addAttribute("bno", bvo.getBno());
-		return "redirect:/board/detail";
+		//m.addAttribute("bno", bvo.getBno());
+		return "redirect:/board/detail?bno="+bvo.getBno();
 	}
 	
 	@GetMapping("/remove")
@@ -87,5 +97,15 @@ public class BoardController {
 		int isOk = bsv.remove(bno);
 
 		return "redirect:/board/list";
+	}
+	
+	@DeleteMapping(value = "/file/{uuid}")
+	public ResponseEntity<String> removeFile(@PathVariable("uuid")String uuid){
+		log.info(">>> uuid >> {} " + uuid);
+		
+		int isOk = bsv.delete(uuid);
+		
+		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) :
+			new ResponseEntity<String>("0",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

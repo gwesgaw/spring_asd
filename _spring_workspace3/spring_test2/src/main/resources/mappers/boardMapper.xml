@@ -42,6 +42,20 @@
     		select max(bno) from board;
     	</select>
     	
+    	<update id="updateCommentCount">
+    		update board b set cmt_qty = 
+			(select count(bno) from comment where bno = b.bno);
+    	</update>
+    	
+    	<update id="updateFileCount">
+    		update board b set has_file = 
+			(select count(bno) from comment where bno = b.bno);
+    	</update>
+    	
+    	<update id="updateReadCount">
+    		update board set read_count = read_count + 1 where bno = ${bno};
+    	</update>
+    	
     	<sql id="search">
     		<if test="type != null">
     			<trim prefix="where(" suffix=")" prefixOverrides="or">

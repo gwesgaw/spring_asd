@@ -21,5 +21,11 @@ public interface BoardDAO {
 
 	long selectOneBno();
 
+	void updateCommentCount();
+
+	void updateFileCount();
+
+	void updateReadCount(long bno);
+
 
 }

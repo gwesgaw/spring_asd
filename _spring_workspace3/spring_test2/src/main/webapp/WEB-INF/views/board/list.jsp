@@ -37,6 +37,8 @@
       <th scope="col">#</th>
       <th scope="col">title</th>
       <th scope="col">writer</th>
+      <th scope="col">commentCount</th>
+      <th scope="col">fileCount</th>
       <th scope="col">regAt</th>
       <th scope="col">readCount</th>
     </tr>
@@ -47,6 +49,8 @@
       <th scope="row">${bvo.bno }</th>
       <td><a href="/board/detail?bno=${bvo.bno }">${bvo.title }</a></td>
       <td>${bvo.writer }</td>
+      <td>${bvo.cmtQty }</td>
+      <td>${bvo.hasFile }</td>
       <td>${bvo.regAt }</td>
       <td>${bvo.readCount }</td>
     </tr>

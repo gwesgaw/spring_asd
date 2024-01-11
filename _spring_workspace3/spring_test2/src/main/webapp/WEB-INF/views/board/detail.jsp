@@ -5,6 +5,7 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <div class="container-md">
 <h1>게시판 상세보기</h1><br>
+<c:set value="${bdto.bvo }" var="bvo"></c:set>
 <div class="mb-3">
   <label for="bno" class="form-label">Bno</label>
   <input type="text" name="bno" class="form-control" id="bno" value="${bvo.bno }" readonly="readonly">
@@ -29,6 +30,41 @@
 <div class="mb-3">
   <label for="content" class="form-label">Content</label>
   <textarea class="form-control" name="content" id="content" rows="3" readonly="readonly">${bvo.content }</textarea>
+</div>
+
+<!-- file line -->
+<c:set value="${bdto.flist }" var="flist"></c:set>
+<div class="mb-3">
+	<label for="f" class="form-label">File</label>
+	<ul class="list-group list-group-flush">
+		<c:forEach items="${flist }" var="fvo">
+			<li class="list-group-item">
+				<c:choose>
+					<c:when test="${fvo.fileType == 1 }">
+						<div>
+							<img alt="" src="/upload/${fvo.saveDir }/${fvo.uuid}_th_${fvo.fileName}">
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div>
+							<!-- 일반 파일 표시할 아이콘 -->
+							<a href="/upload/${fvo.saveDir}/${fvo.uuid}_${fvo.fileName}" download="${fvo.fileName}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-journal-arrow-down" viewBox="0 0 16 16">
+		  							<path fill-rule="evenodd" d="M8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z"/>
+		  							<path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+		  							<path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+								</svg>
+							</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			<div class="ms-2 me-auto">
+				<div class="fw-bold">${fvo.fileName }</div>
+				<span class="badge rounded-pill text-bg-secondary">${fvo.fileSize }Byte</span>
+			</div>
+			</li>
+		</c:forEach>
+	</ul>
 </div>
 
 <a href="/board/list"><button type="button" class="btn btn-primary">List</button></a>
@@ -90,7 +126,7 @@
 
 
 <script type="text/javascript">
-let bnoVal = `<c:out value="${bvo.bno}"/>`;
+let bnoVal = `<c:out value="${bdto.bvo.bno}"/>`;
 console.log(bnoVal);
 </script>
 
