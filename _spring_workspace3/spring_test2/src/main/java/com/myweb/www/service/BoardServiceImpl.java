@@ -61,6 +61,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO getDetail(long bno) {
 		// TODO Auto-generated method stub
+		//readCount 
+		//bdao.readCount(bno); // bno, +1
 		BoardVO bvo = bdao.selectDetail(bno);
 		bdao.updateReadCount(bno);
 		List<FileVO>flist = fdao.getFileList(bno);

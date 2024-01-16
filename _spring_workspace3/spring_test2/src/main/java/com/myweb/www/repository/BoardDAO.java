@@ -28,4 +28,5 @@ public interface BoardDAO {
 	void updateReadCount(long bno);
 
 
+
 }

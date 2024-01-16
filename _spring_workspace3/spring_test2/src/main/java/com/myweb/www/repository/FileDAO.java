@@ -11,6 +11,8 @@ public interface FileDAO {
 	List<FileVO> getFileList(long bno);
 
 	int deleteFile(String uuid);
+
+	List<FileVO> selectListAllFile();
 	
 
 }
