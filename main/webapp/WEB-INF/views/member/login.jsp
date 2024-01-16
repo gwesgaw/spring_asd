@@ -6,7 +6,7 @@
 
 <!-- email, pwd, nick_name -->
 <div class="container-md">
-<h2>Member Register Page</h2>
+<h2>Member Login Page</h2>
 <form action="/member/login" method="post">
 
 <div class="mb-3">
@@ -19,7 +19,7 @@
   <input type="text" name="pwd" class="form-control" id="p" placeholder="pwd">
 </div>
 
-<button type="submit" class="btn btn-primary">Login</button>
+<button type="submit" class="btn btn-primary">로그인</button>
 </form>
 
 <c:if test="${not empty param.errMsg }">
