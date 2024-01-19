@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+@ToString
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@AllArgsConstructor
+
 public class BoardVO {
-	
+
 	private long bno;
 	private String title;
 	private String writer;
@@ -21,5 +23,4 @@ public class BoardVO {
 	private int readCount;
 	private int cmtQty;
 	private int hasFile;
-
 }

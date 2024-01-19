@@ -1,39 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-    <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
-
+  
 <jsp:include page="../layout/header.jsp"></jsp:include>
-<sec:authentication property="principal.mvo.email" var="authEmail"/>
+
 <div class="container-md">
-<h1>Board Register Page</h1>
-<form action="/board/register" method="post" enctype="multipart/form-data">
+<br><br>
+<h2>글쓰기페이지</h2>
+<br>
+<form action="/board/register" method="post">
+
 <div class="mb-3">
-  <label for="title" class="form-label">Title</label>
-  <input type="text" name="title" class="form-control" id="title" placeholder="title...">
-</div>
-<div class="mb-3">
-  <label for="writer" class="form-label">Writer</label>
-  <input type="text" name="writer" class="form-control" value="${authEmail}" id="writer">
-</div>
-<div class="mb-3">
-  <label for="content" class="form-label">Content</label>
-  <textarea class="form-control" name="content" id="content" rows="3"></textarea>
+  <label for="title" class="form-label">제목</label>
+  <input type="text" name="title" class="form-control" id="title" placeholder="제목을 작성해주세요...">
 </div>
 
-<!-- file 입력 라인 추가 -->
 <div class="mb-3">
-  <label for="file" class="form-label">files...</label>
-  <input type="file" name="files" class="form-control" id="files" multiple="multiple" style="display: none;"><br>
-  <!-- 파일 트리거 사용하기 위해서 주는 버튼 -->
-  <button type="button" class="btn btn-primary" id="trigger">fileUpload</button>
-</div>
-<!-- 파일 목록 표시라인 -->
-<div class="mb-3" id="fileZone">
+  <label for="writer" class="form-label">작성자</label>
+  <input type="text" name="writer" class="form-control" id="writer">
 </div>
 
-<button type="submit" class="btn btn-primary" id="regBtn">등록</button>
+<div class="mb-3">
+  <label for="content" class="form-label">내용</label>
+  <textarea class="form-control" name="content" id="content" rows="3" placeholder="내용을 작성해주세요..."></textarea>
+</div>
+
+<a href="/"><button type="button" class="btn btn-secondary">취소</button></a>
+<button type="submit" class="btn btn-secondary" id="regBtn">전송</button>
+
 </form>
-<script src="/resources/js/boardRegister.js"></script>
 </div>
+
+<br><br>
+
 <jsp:include page="../layout/footer.jsp"></jsp:include>

@@ -4,23 +4,19 @@ import java.util.List;
 
 import com.myweb.www.domain.BoardVO;
 import com.myweb.www.domain.PagingVO;
-import com.myweb.www.handler.BoardDTO;
 
 public interface BoardService {
 
-	int insert(BoardDTO bdto);
+	void register(BoardVO bvo);
 
 	List<BoardVO> getList(PagingVO pgvo);
 
-	BoardDTO getDetail(long bno);
+	Object getdetail(int bno);
 
-	void modify(BoardDTO boardDTO);
+	void modify(BoardVO bvo);
 
-	int remove(long bno);
+	int delete(int bno);
 
-	int getTotalCount(PagingVO pgvo);
-
-	int delete(String uuid);
-
+	int gettotalCount(PagingVO pgvo);
 
 }
