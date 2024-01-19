@@ -7,18 +7,26 @@ import com.myweb.www.domain.PagingVO;
 
 public interface BoardDAO {
 
-	void register(BoardVO bvo);
+	int insert(BoardVO bvo);
 
-	List<BoardVO> selectList(PagingVO pgvo);
+	List<BoardVO> getList(PagingVO pgvo);
 
-	BoardVO detail(int bno);
+	BoardVO selectDetail(long bno);
 
-	void updateCount(int bno);
+	int update(BoardVO bvo);
 
-	void modify(BoardVO bvo);
+	int remove(long bno);
 
-	int delete(int bno);
+	int getTotalCount(PagingVO pgvo);
 
-	int totalCount(PagingVO pgvo);
+	long selectOneBno();
+
+	void updateCommentCount();
+
+	void updateFileCount();
+
+	void updateReadCount(long bno);
+
+
 
 }
